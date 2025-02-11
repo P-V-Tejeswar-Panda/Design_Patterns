@@ -12,3 +12,21 @@ The Observer model can also be called <b>Publisher - Subscriber</b> pattern.
 <summary>What are basic facilities provided by the `Subject` or `Producer`?</summary>
 - The `Subject` must have a way of letting `Observers` subscribe and unsubscribe for the state change or new information.
 </details>
+
+<details>
+<summary>Define Observer Design Pattern</summary>
+Def'n: Observer Pattern defines an one-to-many relation between objects such that the change in the state of the Subject is notified to the dependent objects automatically.
+</details>
+
+### Class Diagram
+```mermaid
+SubjectInterface <|-- WeatherData : Implements
+SubjectInterface : subscribe(ObserverInterface* observer) int uid
+SubjectInterface : unsubscribe(int uid)
+SubjectInterface : notify()
+
+ObserverInterface <|-- Observer1 : Implements
+ObserverInterface <|-- Observer2 : Implements
+ObserverInterface <|-- Observer3 : Implements
+ObserverInterface : update(void* data)
+```
