@@ -20,6 +20,7 @@ Def'n: Observer Pattern defines an one-to-many relation between objects such tha
 
 ### Class Diagram
 ```mermaid
+classDiagram
 SubjectInterface <|-- WeatherData : Implements
 SubjectInterface : subscribe(ObserverInterface* observer) int uid
 SubjectInterface : unsubscribe(int uid)
