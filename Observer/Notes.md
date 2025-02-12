@@ -30,5 +30,5 @@ SubjectInterface : ObserverInterface[] observers
 ObserverInterface <|.. ConcreteObserver : Implements
 ObserverInterface : update(void* data)
 
-ConcreteSubject "1" *-- "*" ConcreteObserver: contains  
+ConcreteSubject "1" *-- "1..*" ConcreteObserver: contains  
 ```
