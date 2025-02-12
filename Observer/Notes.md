@@ -21,13 +21,14 @@ Def'n: Observer Pattern defines an one-to-many relation between objects such tha
 ### Class Diagram
 ```mermaid
 classDiagram
-SubjectInterface <|-- WeatherData : Implements
-SubjectInterface : subscribe(ObserverInterface* observer) int uid
-SubjectInterface : unsubscribe(int uid)
+SubjectInterface <|.. ConcreteSubject : Implements
+SubjectInterface : register(ObserverInterface* observer) int uid
+SubjectInterface : remove(int uid)
 SubjectInterface : notify()
+SubjectInterface : ObserverInterface[] observers
 
-ObserverInterface <|-- Observer1 : Implements
-ObserverInterface <|-- Observer2 : Implements
-ObserverInterface <|-- Observer3 : Implements
+ObserverInterface <|.. ConcreteObserver : Implements
 ObserverInterface : update(void* data)
+
+ConcreteSubject "1" *-- "*" ConcreteObserver: contains  
 ```
