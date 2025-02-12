@@ -32,3 +32,35 @@ ObserverInterface : update(void* data)
 
 ConcreteSubject "1" *-- "1..*" ConcreteObserver: contains  
 ```
+
+<details>
+<summary></summary>
+</details>
+
+<details>
+<summary>What are the underlying design principles ? Justify your answer.</summary>
+The underlying design principle of the Observer pattern is loose coupling. 
+</details>
+
+<details>
+<summary>How is loose coupling achieved in Observer pattern ?</summary>
+<li>The only thing Subject cares and knows about the Observer is that it must implement the Observer interface</li>
+<li>We can dynamically add Observers</li>
+<li>Adding observers don't require change in Subject</li>
+<li>We can use the Subject and Observer independently of each other</li>
+<li>Changing either the subject or the Observer doesn't affect the other</li>
+</details>
+
+<details>
+<summary>What is loose coupling?</summary>
+Two objects A & B are said to be loosely coupled if:</br>
+1. Both objects requires very little knowledge each to function.
+2. Both objects can be changed independently of each other.
+3. Both Objects can be used independently of each-other.
+</br>
+Here 'very little' is ambiguous. The feel for very little will come with experience but we can follow the following rule.
+</br>
+Start by clearly defining what Both objects need to know about each other to function. Then remove anything unnecessary.
+</br>
+Define clear interfaces that both objects must implement for their interaction.
+</details>
