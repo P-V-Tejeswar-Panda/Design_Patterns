@@ -1,37 +1,42 @@
+/*
+Problem with Good.cpp:
+1. Lets say in future the Subject added new state data,
+for ex: lets say windspeed measurements
+and we have new observers that require windspeed information.
+Now we will have to modify the display interface which in turn requires
+changing all the displays(Observers) now imagine if the displays are
+owned by diffrent teams or worse, different companies! It would be a disaster!.
+
+2. Lets say all displays don't have all information and we have thousands of
+state data variables! All displays will be flooded with data that they
+don't need.
+
+Solution:
+Part - 1:
+Let's have a generic update() method without any arguments
+Part - 2:
+lets add getter functions to our subject for each state variable so that
+the observers can pick only those data that they need via the getter functions.
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-/*
-Good Design Decision #1:
-We start by formalizing the interface for the observer.
-This will help with two things
-1. All observers recieve the state change information in a single well-defined way.
-   this will help add new observers dynamically as long as they implement is interface.
-   Without this dynamic dispatch won't be possible.
-2. Loose coupling, the subject has a well-defined and limited view of the observer.
-*/
 class DisplayInterface{
     public:
-    virtual void update(double temp, double humidity, double pressure) = 0;
+    // Let's have a generic update method
+    virtual void update() = 0;
 };
 
 class WeatherData{
-    private:
+    protected:
     double temperature      = 0;
     double pressure         = 0;
     double humidity         = 0;
-    /*
-    Good Design Decision #2:
-        having a dynamic list of diplays and subscribe and unsubscribe
-        methods let you 
-        1. add and remove new observers at runtime.
-        2. Doesn't require code change in Subject.
-    */
     vector<DisplayInterface*> displays;
     public:
-    WeatherData(double temp, double humidity, double pressure);
+    WeatherData();
     int subscribe(DisplayInterface* disp);
     void unsubscribe(DisplayInterface *disp);
     double getTemparature(); 
@@ -46,14 +51,10 @@ class CurrentConditions: public DisplayInterface{
     WeatherData* weatherData = NULL;
     public:
     CurrentConditions(WeatherData* wd){
-        // having a pointer to the WeatherData object helps to
-        // move unsubscribe logic inside the Display.
-        // If we didn't have a pointer inside this class, cannot take the decision
-        // of unsubscribing to the Subject inside the class.
         this->weatherData = wd;
     }
-    void update(double temp, double humidity, double pressure){
-        cout << "Current Conditions: T: " << temp << " H: " << humidity << " P: " << pressure << endl;
+    void update(){
+        cout << "Current Conditions: T: " << weatherData->getTemparature() << " H: " << weatherData->getHumidity() << " P: " << weatherData->getPressure() << endl;
     }
     void unsubscribe(){
         this->weatherData->unsubscribe(this);
@@ -65,8 +66,8 @@ class Statistics: public DisplayInterface{
     Statistics(WeatherData* wd){
         this->weatherData = wd;
     }
-    void update(double temp, double humidity, double pressure){
-        cout << "Statistics: T: " << temp << " H: " << humidity << " P: " << pressure << endl;
+    void update(){
+        cout << "Statistics: T: " << weatherData->getTemparature() << " H: " << weatherData->getHumidity() << " P: " << weatherData->getPressure() << endl;
     }
     void unsubscribe(){
         this->weatherData->unsubscribe(this);
@@ -78,16 +79,16 @@ class Forecast: public DisplayInterface{
     Forecast(WeatherData* wd){
         this->weatherData = wd;
     }
-    void update(double temp, double humidity, double pressure){
-        cout << "Forecast: T: " << temp << " H: " << humidity << " P: " << pressure << endl;
+    void update(){
+        cout << "Forecast: T: " << weatherData->getTemparature() << " H: " << weatherData->getHumidity() << " P: " << weatherData->getPressure() << endl;
     }
     void unsubscribe(){
         this->weatherData->unsubscribe(this);
     }
 };
 
-WeatherData::WeatherData(double temp, double humidity, double pressure){
-    setMeasurements(temp, humidity, pressure);
+WeatherData::WeatherData(){
+    setMeasurements(0, 0, 0);
 }
 int WeatherData::subscribe(DisplayInterface* disp){
     this->displays.push_back(disp);
@@ -121,11 +122,8 @@ double WeatherData::getPressure(){
 
 void WeatherData::measurementsChanged(){
     /* We have to implement this method to support three displays*/
-    double temp  = getTemparature();
-    double hm    = getHumidity();
-    double press = getPressure();
     for(DisplayInterface* disp: displays){
-        disp->update(temp, hm, press);
+        disp->update();
     }
 }
 WeatherData::~WeatherData(){
@@ -134,13 +132,19 @@ WeatherData::~WeatherData(){
 }
 
 int main(void){
-    WeatherData wd = WeatherData(2.3, 3.4, 4.5);
-    Forecast* fc = new Forecast(&wd);
+    WeatherData wd = WeatherData();
+    Forecast* fc = new Forecast((WeatherData*)&wd);
     wd.subscribe(fc);
     wd.setMeasurements(1.0, 2.0, 3.0);
-    CurrentConditions* cc = new CurrentConditions(&wd);
+    CurrentConditions* cc = new CurrentConditions((WeatherData*)&wd);
     wd.subscribe(cc);
     wd.setMeasurements(4.0, 5.0, 6.0);
     cc->unsubscribe();
     wd.setMeasurements(7.0, 8.0, 9.0);
+
+    // Now we have a new version of subject that has windSpeed &
+    // a new observer, HurricaneDisplay that can use windSpeed but doesn't require anything else
+
+
+
 }
