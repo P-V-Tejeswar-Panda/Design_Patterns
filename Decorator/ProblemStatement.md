@@ -40,10 +40,10 @@ Since a customized beverage is still a beverage and a topped and cutomized bever
 classDiagram
     BeverageInterface: string description
     BeverageInterface: abstract calculate() float
-    BeverageInterface: abstract getDescription() string
+    BeverageInterface: getDescription() string
 
-    CondimentsDecorator: BeverageInterface baseBeverage
-    CondimentsDecorator: getDescription() string
+    CondimentsDecoratorInterface: BeverageInterface baseBeverage
+    CondimentsDecoratorInterface: getDescription() string
 
     Capuchino: calculate() float
     Capuchino: getDescription() string
@@ -58,7 +58,7 @@ classDiagram
     BeverageInterface <|.. Latte
     BeverageInterface <|.. IcedTea
 
-    BeverageInterface <|.. CondimentsDecorator
+    BeverageInterface <|-- CondimentsDecoratorInterface: extends
 
     SoyMilk: calculate() float
     SoyMilk: getDescription() string
@@ -72,8 +72,13 @@ classDiagram
     LemonSlice: calculate() float
     LemonSlice: getDescription() string
 
-    CondimentsDecorator <|.. SoyMilk
-    CondimentsDecorator <|.. FatFree
-    CondimentsDecorator <|.. WhippedCream
-    CondimentsDecorator <|.. LemonSlice
+    CondimentsDecoratorInterface <|.. SoyMilk
+    CondimentsDecoratorInterface <|.. FatFree
+    CondimentsDecoratorInterface <|.. WhippedCream
+    CondimentsDecoratorInterface <|.. LemonSlice
 ```
+- How to get any kind of customized beverage ?
+1. Create the base beverage, say Latte.
+2. Decorate with one condiment, say Soy Milk.
+3. Decorate with another condiment, say Whipped cream.
+Finally call calculate on the fully decorated beverage and you will get the full price.
