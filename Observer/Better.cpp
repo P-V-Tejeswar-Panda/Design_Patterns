@@ -11,6 +11,8 @@ owned by diffrent teams or worse, different companies! It would be a disaster!.
 state data variables! All displays will be flooded with data that they
 don't need.
 
+We will solve problem 2 in Better.cpp
+and leave problem to Best.cpp
 Solution:
 Part - 1:
 Let's have a generic update() method without any arguments
