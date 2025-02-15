@@ -50,7 +50,7 @@ Decorator pattern usually have an Interface that is implemented by multiple deco
 <li>Level 2: The first level of decorators. From this level onwards, we can have a herarchy of decorators.</li>
 <li>Level 3: Second level of decorators and so on ...</li>
 
-<pre class="mermaid">
+```mermaid
 classDiagram
 namespace Level_0{
     class InputStream
@@ -84,7 +84,7 @@ namespace Level_3{
     FilterInputStream <|-- InflatorInputStream
 
     InflatorInputStream <|.. ZipInputStream
-</pre>
+```
 
 </details>
 
