@@ -40,6 +40,10 @@ Here we can easily introduce a Factory pattern that makes sure that translation 
 <details>
 <summary>What are the Design Principles behind it ?</summary>
 <li>Open-And-Closed Principle: Classes should be open for extension but closed for modification.</li>
+There are two ways to do this:
+
+1. Decorating
+2. Inheritance
 </details>
 
 <details>
@@ -49,7 +53,7 @@ Decorator pattern usually have an Interface that is implemented by multiple deco
 <li>Level 1: We have a family of base classes that will be decorated by the decorators</li>
 <li>Level 2: The first level of decorators. From this level onwards, we can have a herarchy of decorators.</li>
 <li>Level 3: Second level of decorators and so on ...</li>
-
+<li>We typically need the base class then we can choose any number of decorator from any level or omit all decorator from one level all together.</li>
 ```mermaid
 classDiagram
 namespace Level_0{
