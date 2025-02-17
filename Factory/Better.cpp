@@ -3,7 +3,6 @@ Here we will solve the level 2 of the problem.
 */
 #include <iostream>
 #include <string>
-#include <vector>
 using namespace std;
 
 /*--------------------- Interfaces ---------------------*/
