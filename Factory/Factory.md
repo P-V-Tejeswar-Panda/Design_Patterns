@@ -40,6 +40,7 @@ classDiagram
     PizzaStore ..> DELMargerita
     PizzaStore ..> DELPeppyPaneer
     PizzaStore ..> DELFarmHouse
+
 ```
 
 If we Invert the dependency it becomes:
